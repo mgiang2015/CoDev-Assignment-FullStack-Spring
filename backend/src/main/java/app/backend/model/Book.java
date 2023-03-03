@@ -6,18 +6,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "books")
-public class Books {
+public class Book {
     @Id
     @GeneratedValue
     private int id;
     private String name;
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
     // Many-to-Many with people
-    @ManyToMany(targetEntity = People.class)
+    @ManyToMany(targetEntity = Person.class)
     private List people;
 
     @PrePersist

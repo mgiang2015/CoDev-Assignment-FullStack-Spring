@@ -5,21 +5,40 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "authors")
-public class Authors {
+@Table(name = "people")
+public class Person {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private int id;
+    @Column(name = "name")
     private String name;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
+    @Column(name = "country_id")
+    Long country_id;
 
-    // One-to-Many to books - 1 author writes many books
-    @OneToMany(targetEntity = Books.class)
-    private List books;
+    // Many-to-Many mapping
+    @ManyToMany(targetEntity = Book.class)
+    private List books; // rented books
 
+    public Person() {
+        name = "";
+        country_id = 0L;
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    public Person(String name, Long country_id) {
+        this.name = name;
+        this.country_id = country_id;
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    // Event listeners
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
@@ -31,7 +50,7 @@ public class Authors {
         updatedAt = LocalDateTime.now();
     }
 
-    // setters and getters for JPA
+    // Setters and getters. Necessary for JPA
 
     public int getId() {
         return id;
@@ -63,6 +82,14 @@ public class Authors {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Long getCountry_id() {
+        return country_id;
+    }
+
+    public void setCountry_id(Long country_id) {
+        this.country_id = country_id;
     }
 
     public List getBooks() {
