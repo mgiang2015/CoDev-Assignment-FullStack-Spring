@@ -15,6 +15,7 @@ public class Author {
     private LocalDateTime updatedAt;
 
     // One-to-Many to books - 1 author writes many books
+    @JoinTable(name = "author_books")
     @OneToMany(targetEntity = Book.class)
     private List books;
 

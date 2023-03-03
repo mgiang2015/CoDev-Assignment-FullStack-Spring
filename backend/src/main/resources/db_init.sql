@@ -1,3 +1,10 @@
+-- Drop all tables
+DROP TABLE IF EXISTS people CASCADE;
+DROP TABLE IF EXISTS books CASCADE;
+DROP TABLE IF EXISTS authors CASCADE;
+DROP TABLE IF EXISTS author_books CASCADE;
+DROP TABLE IF EXISTS book_rents CASCADE;
+
 -- PUT THIS IN README - MUST SET UP BEFORE RUNNING, spring.datasource.url= jdbc:postgresql://localhost:5432/mydb, spring.datasource.username= min, spring.datasource.password= 123
 CREATE SEQUENCE IF NOT EXISTS people_id_seq;
 CREATE SEQUENCE IF NOT EXISTS books_id_seq;
@@ -56,3 +63,36 @@ CREATE TABLE IF NOT EXISTS book_rents
     "createdAt" time with time zone NOT NULL,
     "updatedAt" time with time zone NOT NULL
 );
+
+-- Populate table with some data entries
+INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
+VALUES(1, 'LMG', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 0);
+
+INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
+VALUES(2, 'Walt White', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 0);
+
+INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
+VALUES(3, 'Gus Fring', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 0);
+
+INSERT INTO public.authors (id, name, "createdAt", "updatedAt")
+VALUES(1, 'Barack Obama', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.authors (id, name, "createdAt", "updatedAt")
+VALUES(2, 'Michelle Obama', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.authors (id, name, "createdAt", "updatedAt")
+VALUES(3, 'Dr. Seuss', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.books (id, name, "createdAt", "updatedAt")
+VALUES(1, 'Harry Potter', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.books (id, name, "createdAt", "updatedAt")
+VALUES(2, 'Lookism', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.books (id, name, "createdAt", "updatedAt")
+VALUES(3, 'Winter Wyvern', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+
+
+
+

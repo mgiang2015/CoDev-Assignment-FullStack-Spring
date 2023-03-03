@@ -1,7 +1,7 @@
 package app.backend.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Entity
@@ -14,40 +14,41 @@ public class Person {
     @Column(name = "name")
     private String name;
     @Column(name = "createdAt")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
     @Column(name = "updatedAt")
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
     @Column(name = "country_id")
     Long country_id;
 
     // Many-to-Many mapping
     @ManyToMany(targetEntity = Book.class)
+    @JoinTable(name = "book_rents")
     private List books; // rented books
 
     public Person() {
         name = "";
         country_id = 0L;
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = OffsetDateTime.now();
+        updatedAt = OffsetDateTime.now();
     }
 
     public Person(String name, Long country_id) {
         this.name = name;
         this.country_id = country_id;
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = OffsetDateTime.now();
+        updatedAt = OffsetDateTime.now();
     }
 
     // Event listeners
     @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = OffsetDateTime.now();
+        updatedAt = OffsetDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = OffsetDateTime.now();
     }
 
     // Setters and getters. Necessary for JPA
@@ -68,19 +69,19 @@ public class Person {
         this.name = name;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
