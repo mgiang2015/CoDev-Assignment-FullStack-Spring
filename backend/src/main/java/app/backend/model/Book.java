@@ -18,6 +18,9 @@ public class Book {
     @ManyToMany(targetEntity = Person.class)
     private List people;
 
+    @ManyToOne(targetEntity = Author.class)
+    private Author author;
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
@@ -69,5 +72,16 @@ public class Book {
 
     public void setPeople(List people) {
         this.people = people;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", people=" + people +
+                '}';
     }
 }

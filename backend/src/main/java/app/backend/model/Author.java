@@ -70,4 +70,15 @@ public class Author {
     public void setBooks(List books) {
         this.books = books;
     }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", books=" + books +
+                '}';
+    }
 }

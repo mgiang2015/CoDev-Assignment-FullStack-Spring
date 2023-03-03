@@ -99,4 +99,17 @@ public class Person {
     public void setBooks(List books) {
         this.books = books;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", country_id=" + country_id +
+                ", books=" + books +
+                '}';
+    }
+
 }
