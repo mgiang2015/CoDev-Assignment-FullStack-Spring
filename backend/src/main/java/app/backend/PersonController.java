@@ -1,4 +1,4 @@
-package app.backend.structures;
+package app.backend;
 
 import app.backend.model.Book;
 import app.backend.model.PersonRepository;

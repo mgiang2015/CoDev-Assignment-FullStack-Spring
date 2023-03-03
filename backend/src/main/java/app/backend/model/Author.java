@@ -1,7 +1,7 @@
 package app.backend.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Entity
@@ -9,25 +9,31 @@ import java.util.List;
 public class Author {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private int id;
+    @Column(name = "name")
     private String name;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    @Column(name = "\"createdAt\"")
+    private OffsetDateTime createdAt;
+    @Column(name = "\"updatedAt\"")
+    private OffsetDateTime updatedAt;
 
     // One-to-Many to books - 1 author writes many books
+    /*
     @JoinTable(name = "author_books")
     @OneToMany(targetEntity = Book.class)
     private List books;
+     */
 
     @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = OffsetDateTime.now();
+        updatedAt = OffsetDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = OffsetDateTime.now();
     }
 
     // setters and getters for JPA
@@ -48,22 +54,23 @@ public class Author {
         this.name = name;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
+    /*
     public List getBooks() {
         return books;
     }
@@ -71,15 +78,13 @@ public class Author {
     public void setBooks(List books) {
         this.books = books;
     }
+     */
 
     @Override
     public String toString() {
         return "Author{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", books=" + books +
                 '}';
     }
 }
