@@ -21,7 +21,7 @@ public class PersonRepository {
     }
 
     public List<Person> findAllPeople() {
-        return entityManager.createQuery("SELECT * FROM people", Person.class).getResultList();
+        return entityManager.createQuery("SELECT p FROM Person p", Person.class).getResultList();
     }
 
     public Person findById(int id) {

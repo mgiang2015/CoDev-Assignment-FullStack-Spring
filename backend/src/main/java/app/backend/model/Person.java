@@ -13,17 +13,19 @@ public class Person {
     private int id;
     @Column(name = "name")
     private String name;
-    @Column(name = "createdAt")
+    @Column(name = "\"createdAt\"")
     private OffsetDateTime createdAt;
-    @Column(name = "updatedAt")
+    @Column(name = "\"updatedAt\"")
     private OffsetDateTime updatedAt;
     @Column(name = "country_id")
     Long country_id;
 
     // Many-to-Many mapping
+    /*
     @ManyToMany(targetEntity = Book.class)
     @JoinTable(name = "book_rents")
     private List books; // rented books
+    */
 
     public Person() {
         name = "";
@@ -93,6 +95,7 @@ public class Person {
         this.country_id = country_id;
     }
 
+    /*
     public List getBooks() {
         return books;
     }
@@ -100,6 +103,7 @@ public class Person {
     public void setBooks(List books) {
         this.books = books;
     }
+     */
 
     @Override
     public String toString() {
@@ -109,7 +113,6 @@ public class Person {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", country_id=" + country_id +
-                ", books=" + books +
                 '}';
     }
 
