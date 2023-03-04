@@ -10,6 +10,10 @@ import java.util.List;
 @Entity
 @Table(name = "people")
 public class Person {
+    public static final Long CODE_SG = 0L;
+    public static final Long CODE_MY = 1L;
+    public static final Long CODE_US = 2L;
+
     @Id
     @GeneratedValue
     @Column(name = "id")
