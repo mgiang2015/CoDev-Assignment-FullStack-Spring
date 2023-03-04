@@ -1,34 +1,31 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
 import BookDropdown from './components/BookDropdown'
 import './App.css'
 
 const top3Books = [
   {
-    bookName: "Markiplier - 3 Scary Games #69"
+    bookName: "Hi",
+    author: "Markiplier"
   },{
-    bookName: "Hello World 2.0"
+    bookName: "Hello World",
+    author: "C++"
   },{
-    bookName: "Snowee and Spotee - Tale of Kittens"
+    bookName: "Tale of Kittens",
+    author: "yes"
   }
 ]
 
 function App() {
   const backendUrl = "http://localhost:8080"
-  const [message, setMessage] = useState("")
-
-  useEffect(() => {
-    fetch(backendUrl + "/greeting?name=Quanya", { mode: 'cors' })
-      .then((res) => res.json())
-      .then((data) => setMessage(data.content));
-  }, []);
+  const [message, setMessage] = useState("HELLO EVERYONE")
 
   return (
     <div className="App">
-      <h1>{message}</h1>
-      {
-        top3Books.map((book, index) => <BookDropdown key={index} id={index} bookName={book.bookName} />)
-      }
+      <div id="container" className="bookContainer">
+        {
+          top3Books.map((book, index) => <BookDropdown key={index} id={index + 1} bookName={book.bookName} author={book.author} />)
+        }
+      </div>
     </div>
   )
 }
