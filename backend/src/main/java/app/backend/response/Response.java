@@ -1,47 +1,48 @@
 package app.backend.response;
 
-import javax.persistence.*;
+import app.backend.model.Author;
+
 import java.util.List;
 
 public class Response {
-    private String bookName;    // book name
-    private String authorName;  // author name
+    private String name;    // book name
+    private Author author;  // author name
 
     private List borrower;
 
     public Response() {
-        bookName = "";
-        authorName = "";
+        name = "";
+        author = null;
         borrower = null;
     }
 
-    public Response(String bookName, String authorName, List borrower) {
-        this.bookName = bookName;
-        this.authorName = authorName;
+    public Response(String name, Author author, List borrower) {
+        this.name = name;
+        this.author = author;
         this.borrower = borrower;
     }
 
-    public String getBookName() {
-        return bookName;
+    public String getName() {
+        return name;
     }
 
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAuthorName() {
-        return authorName;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
-    public List<String> getBorrower() {
+    public List getBorrower() {
         return borrower;
     }
 
-    public void setBorrower(List<String> borrower) {
+    public void setBorrower(List borrower) {
         this.borrower = borrower;
     }
 }

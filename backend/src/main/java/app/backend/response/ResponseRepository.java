@@ -1,5 +1,6 @@
 package app.backend.response;
 
+import app.backend.model.Author;
 import app.backend.model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,53 +26,70 @@ public class ResponseRepository {
 
     public List<Response> getTop3ReadBooks(Long country_id) {
         List<Object[]> top3BooksWithAuthor = entityManager.createNativeQuery(
-                "SELECT book_name, author_name FROM (\n" +
-                        "\t(\n" +
-                        "\t\tSELECT book_id AS book_info_id, book_name, name AS author_name FROM\n" +
-                        "\t\t(\n" +
-                        "\t\t\tSELECT book_id, book_name, author_id FROM\n" +
-                        "\t\t\t\t(SELECT id, name AS book_name FROM books) book_id_name\n" +
-                        "\t\t\t\tINNER JOIN author_books ON id = book_id\n" +
-                        "\t\t) book_info INNER JOIN authors ON author_id = id\n" +
-                        "\t) book_id_name_author\n" +
+                "SELECT book_name, author_id, author_name, \"createdAt\", \"updatedAt\" FROM (\n" +
+                        "        (\n" +
+                        "                SELECT book_id AS book_info_id, book_name, name AS author_name, id as author_id, \"createdAt\", \"updatedAt\" FROM\n" +
+                        "                (\n" +
+                        "                        SELECT book_id, book_name, author_id FROM\n" +
+                        "                                (SELECT id, name AS book_name FROM books) book_id_name\n" +
+                        "                                INNER JOIN author_books ON id = book_id\n" +
+                        "                ) book_info INNER JOIN authors ON author_id = id\n" +
+                        "        ) book_id_name_author\n" +
                         "\n" +
-                        "\tINNER JOIN\n" +
+                        "        INNER JOIN\n" +
                         "\n" +
-                        "\t(\n" +
-                        "\t\tSELECT book_id, COUNT(person_id) FROM (\n" +
-                        "\t\t\tSELECT book_id, person_id FROM\n" +
-                        "\t\t\t\tpeople INNER JOIN book_rents ON id = person_id\n" +
-                        "\t\t\tWHERE country_id = " + country_id + "\n" +
-                        "\t\t) filtered_book GROUP BY book_id ORDER BY count DESC LIMIT 3\n" +
-                        "\t) book_id_count\n" +
+                        "        (\n" +
+                        "                SELECT book_id, COUNT(*) FROM (\n" +
+                        "                        SELECT book_id, person_id FROM\n" +
+                        "                                people INNER JOIN book_rents ON id = person_id\n" +
+                        "                        WHERE country_id = 0\n" +
+                        "                ) filtered_book GROUP BY book_id ORDER BY count DESC LIMIT 3\n" +
+                        "        ) book_id_count\n" +
                         "\n" +
-                        "\tON book_info_id = book_id\n" +
+                        "        ON book_info_id = book_id\n" +
                         ")"
         ).getResultList();
 
         logger.info("top3BooksWithAuthor = " + top3BooksWithAuthor);
 
-        List<String> top3Borrowers = entityManager.createNativeQuery(
-                "SELECT name FROM\n" +
+        List<Object[]> top3BorrowersString = entityManager.createNativeQuery(
+                "SELECT person_id, name, \"createdAt\", \"updatedAt\" FROM\n" +
                         "\tpeople\n" +
                         "\n" +
                         "\tLEFT OUTER JOIN\n" +
                         "\n" +
-                        "\t(SELECT person_id, COUNT(book_id) FROM book_rents GROUP BY person_id ORDER BY count DESC LIMIT 3) rent_count\n" +
+                        "\t(SELECT person_id, COUNT(*) FROM book_rents GROUP BY person_id ORDER BY count DESC LIMIT 3) rent_count\n" +
                         "\n" +
                         "\tON id = person_id\n" +
                         "\n" +
-                        "WHERE country_id = " + country_id
+                        "WHERE country_id = 0" + country_id
         ).getResultList();
 
-        logger.info("top3Borrowers = " + top3Borrowers);
+        logger.info("top3Borrowers = " + top3BorrowersString);
+
+        ArrayList<Person> top3Borrowers = new ArrayList<>();
+        for (Object[] info : top3BorrowersString) {
+            Person p = new Person();
+            p.setId(Integer.parseInt(String.valueOf(info[0])));
+            p.setName(String.valueOf(info[1]));
+            // p.setCreatedAt(OffsetDateTime.parse(String.valueOf(info[2]), DateTimeFormatter.ofPattern ( "yyyy-MM-dd HH:mm:ss.SSSX" )));
+            // p.setUpdatedAt(OffsetDateTime.parse(String.valueOf(info[3]), DateTimeFormatter.ofPattern ( "yyyy-MM-dd HH:mm:ss.SSSX" )));
+            p.setCountry_id(country_id);
+            top3Borrowers.add(p);
+        }
 
         ArrayList<Response> result = new ArrayList<>();
 
         for (Object[] obj : top3BooksWithAuthor) {
+            Author author = new Author();
+            author.setId(Integer.parseInt(String.valueOf(obj[1])));
+            author.setName(String.valueOf(obj[2]));
+            // author.setCreatedAt(OffsetDateTime.parse(String.valueOf(obj[3]), DateTimeFormatter.ofPattern ( "yyyy-MM-dd HH:mm:ss.SSSX" )));
+            // author.setUpdatedAt(OffsetDateTime.parse(String.valueOf(obj[4]), DateTimeFormatter.ofPattern ( "yyyy-MM-dd HH:mm:ss.SSSX" )));
+
             Response res = new Response();
-            res.setAuthorName(String.valueOf(obj[0]));
-            res.setBookName(String.valueOf(obj[1]));
+            res.setAuthor(author);
+            res.setName(String.valueOf(obj[0]));
             res.setBorrower(top3Borrowers);
             result.add(res);
         }
@@ -79,32 +99,32 @@ public class ResponseRepository {
 }
 
 /* Query for top books
-SELECT book_name, author_name FROM (
-	(
-		SELECT book_id AS book_info_id, book_name, name AS author_name FROM
-		(
-			SELECT book_id, book_name, author_id FROM
-				(SELECT id, name AS book_name FROM books) book_id_name
-				INNER JOIN author_books ON id = book_id
-		) book_info INNER JOIN authors ON author_id = id
-	) book_id_name_author
+SELECT book_name, author_id, author_name, "createdAt", "updatedAt" FROM (
+        (
+                SELECT book_id AS book_info_id, book_name, name AS author_name, id as author_id, "createdAt", "updatedAt" FROM
+                (
+                        SELECT book_id, book_name, author_id FROM
+                                (SELECT id, name AS book_name FROM books) book_id_name
+                                INNER JOIN author_books ON id = book_id
+                ) book_info INNER JOIN authors ON author_id = id
+        ) book_id_name_author
 
-	INNER JOIN
+        INNER JOIN
 
-	(
-		SELECT book_id, COUNT(*) FROM (
-			SELECT book_id, person_id FROM
-				people INNER JOIN book_rents ON id = person_id
-			WHERE country_id = 0
-		) filtered_book GROUP BY book_id ORDER BY count DESC LIMIT 3
-	) book_id_count
+        (
+                SELECT book_id, COUNT(*) FROM (
+                        SELECT book_id, person_id FROM
+                                people INNER JOIN book_rents ON id = person_id
+                        WHERE country_id = 0
+                ) filtered_book GROUP BY book_id ORDER BY count DESC LIMIT 3
+        ) book_id_count
 
-	ON book_info_id = book_id
+        ON book_info_id = book_id
 );
 */
 
 /* Query for top 3 borrowers
-SELECT name FROM
+SELECT person_id, name, "createdAt", "updatedAt" FROM
 	people
 
 	LEFT OUTER JOIN

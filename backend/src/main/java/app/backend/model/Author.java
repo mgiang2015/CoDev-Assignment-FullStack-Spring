@@ -25,6 +25,22 @@ public class Author {
     @JsonBackReference
     private List books;
 
+    public Author() {
+        this.id = -1;
+        this.name = null;
+        this.books = null;
+        createdAt = OffsetDateTime.now();
+        updatedAt = OffsetDateTime.now();
+    }
+
+    public Author(int id, String name, List books) {
+        this.id = id;
+        this.name = name;
+        this.books = books;
+        createdAt = OffsetDateTime.now();
+        updatedAt = OffsetDateTime.now();
+    }
+
     @PrePersist
     public void onCreate() {
         createdAt = OffsetDateTime.now();
