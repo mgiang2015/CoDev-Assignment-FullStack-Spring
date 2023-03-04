@@ -1,5 +1,8 @@
 package app.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -21,16 +24,16 @@ public class Person {
     Long country_id;
 
     // Many-to-Many mapping
-    @ManyToMany
-    @JoinTable(name = "book_rents", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<Book> rentedBooks; // rented books
+    @ManyToMany(targetEntity = Book.class, mappedBy = "people")
+    @JsonBackReference
+    private List<Book> books; // rented books
 
     public Person() {
         name = "";
         country_id = 0L;
         createdAt = OffsetDateTime.now();
         updatedAt = OffsetDateTime.now();
-        rentedBooks = null;
+        books = null;
     }
 
     public Person(String name, Long country_id, List books) {
@@ -38,7 +41,7 @@ public class Person {
         this.country_id = country_id;
         createdAt = OffsetDateTime.now();
         updatedAt = OffsetDateTime.now();
-        this.rentedBooks = books;
+        this.books = books;
     }
 
     // Event listeners
@@ -96,11 +99,11 @@ public class Person {
     }
 
     public List getBooks() {
-        return rentedBooks;
+        return books;
     }
 
     public void setBooks(List books) {
-        this.rentedBooks = books;
+        this.books = books;
     }
 
     @Override

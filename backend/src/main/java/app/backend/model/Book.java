@@ -1,5 +1,8 @@
 package app.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -19,8 +22,10 @@ public class Book {
     private OffsetDateTime updatedAt;
 
     // Many-to-Many with people
-    @ManyToMany(targetEntity = Person.class, mappedBy = "rentedBooks")
-    private List<Person> people;
+    @ManyToMany(targetEntity = Person.class)
+    @JoinTable(name = "book_rents", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "person_id"))
+    @JsonManagedReference
+    private List people;
 
     public Book() {
         this.id = -1;
