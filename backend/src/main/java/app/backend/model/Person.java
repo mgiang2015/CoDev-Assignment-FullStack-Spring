@@ -21,24 +21,24 @@ public class Person {
     Long country_id;
 
     // Many-to-Many mapping
-    /*
-    @ManyToMany(targetEntity = Book.class)
-    @JoinTable(name = "book_rents")
-    private List books; // rented books
-    */
+    @ManyToMany
+    @JoinTable(name = "book_rents", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private List<Book> rentedBooks; // rented books
 
     public Person() {
         name = "";
         country_id = 0L;
         createdAt = OffsetDateTime.now();
         updatedAt = OffsetDateTime.now();
+        rentedBooks = null;
     }
 
-    public Person(String name, Long country_id) {
+    public Person(String name, Long country_id, List books) {
         this.name = name;
         this.country_id = country_id;
         createdAt = OffsetDateTime.now();
         updatedAt = OffsetDateTime.now();
+        this.rentedBooks = books;
     }
 
     // Event listeners
@@ -95,15 +95,13 @@ public class Person {
         this.country_id = country_id;
     }
 
-    /*
     public List getBooks() {
-        return books;
+        return rentedBooks;
     }
 
     public void setBooks(List books) {
-        this.books = books;
+        this.rentedBooks = books;
     }
-     */
 
     @Override
     public String toString() {

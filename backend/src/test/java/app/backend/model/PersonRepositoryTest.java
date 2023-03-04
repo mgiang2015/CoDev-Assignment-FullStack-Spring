@@ -35,7 +35,7 @@ public class PersonRepositoryTest {
     @Test
     @Transactional
     public void insert() {
-        Person p = new Person("Walter White", 84L);
+        Person p = new Person("Walter White", 84L, null);
         personRepository.insert(p);
         assertNotNull("ID is null", p.getId());
     }

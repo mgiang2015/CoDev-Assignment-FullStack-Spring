@@ -18,12 +18,25 @@ public class Book {
     @Column(name = "\"updatedAt\"")
     private OffsetDateTime updatedAt;
 
-    /*
     // Many-to-Many with people
-    @ManyToMany(targetEntity = Person.class)
-    @JoinTable(name = "book_rents")
-    private List people;
-    */
+    @ManyToMany(targetEntity = Person.class, mappedBy = "rentedBooks")
+    private List<Person> people;
+
+    public Book() {
+        this.id = -1;
+        this.name = null;
+        createdAt = OffsetDateTime.now();
+        updatedAt = OffsetDateTime.now();
+        people = null;
+    }
+
+    public Book(int id, String name, List people) {
+        this.id = id;
+        this.name = name;
+        createdAt = OffsetDateTime.now();
+        updatedAt = OffsetDateTime.now();
+        this.people = people;
+    }
 
     @PrePersist
     public void onCreate() {
@@ -70,7 +83,6 @@ public class Book {
         this.updatedAt = updatedAt;
     }
 
-    /*
     public List getPeople() {
         return people;
     }
@@ -78,7 +90,6 @@ public class Book {
     public void setPeople(List people) {
         this.people = people;
     }
-    */
 
     @Override
     public String toString() {
