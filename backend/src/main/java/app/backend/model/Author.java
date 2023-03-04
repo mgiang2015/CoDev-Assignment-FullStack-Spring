@@ -1,5 +1,7 @@
 package app.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -19,11 +21,9 @@ public class Author {
     private OffsetDateTime updatedAt;
 
     // One-to-Many to books - 1 author writes many books
-    /*
-    @JoinTable(name = "author_books")
     @OneToMany(targetEntity = Book.class)
+    @JsonBackReference
     private List books;
-     */
 
     @PrePersist
     public void onCreate() {

@@ -27,20 +27,27 @@ public class Book {
     @JsonManagedReference
     private List people;
 
+    @ManyToOne
+    @JoinTable(name = "author_books", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+    @JsonManagedReference
+    private Author author;
+
     public Book() {
         this.id = -1;
         this.name = null;
         createdAt = OffsetDateTime.now();
         updatedAt = OffsetDateTime.now();
         people = null;
+        author = null;
     }
 
-    public Book(int id, String name, List people) {
+    public Book(int id, String name, List people, Author author) {
         this.id = id;
         this.name = name;
         createdAt = OffsetDateTime.now();
         updatedAt = OffsetDateTime.now();
         this.people = people;
+        this.author = author;
     }
 
     @PrePersist
