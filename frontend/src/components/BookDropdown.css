@@ -9,6 +9,8 @@
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 3fr 1fr;
     align-items: self-end;
+
+    margin: 0.5em;
 }
 
 .toggleContainer {
@@ -48,6 +50,8 @@
     display: inline-block;
     transform: rotate(-135deg);
     -webkit-transform: rotate(-135deg);
+
+    cursor: pointer;
 }
 
 .author {
@@ -61,4 +65,26 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+
+.bookAndChildrenContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.customer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 331px;
+    height: 79px;
+    background: #F4CFCF;
+    border-radius: 10px;
+
+    font-weight: 400;
+    font-size: 24px;
+
+    margin: 0.5em;
 }
