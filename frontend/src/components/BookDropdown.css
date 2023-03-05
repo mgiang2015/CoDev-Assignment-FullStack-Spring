@@ -1,7 +1,7 @@
 .BookItem {
     background-color: #F6ECEC;
-    height: 108px;
-    width: 409px;
+    min-height: 108px;
+    min-width: 409px;
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px #00000040;
 

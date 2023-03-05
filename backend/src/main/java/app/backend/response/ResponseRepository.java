@@ -42,7 +42,7 @@ public class ResponseRepository {
                         "                SELECT book_id, COUNT(*) FROM (\n" +
                         "                        SELECT book_id, person_id FROM\n" +
                         "                                people INNER JOIN book_rents ON id = person_id\n" +
-                        "                        WHERE country_id = 0\n" +
+                        "                        WHERE country_id = " + country_id + "\n" +
                         "                ) filtered_book GROUP BY book_id ORDER BY count DESC LIMIT 3\n" +
                         "        ) book_id_count\n" +
                         "\n" +
@@ -62,7 +62,7 @@ public class ResponseRepository {
                         "\n" +
                         "\tON id = person_id\n" +
                         "\n" +
-                        "WHERE country_id = 0" + country_id
+                        "WHERE country_id = " + country_id
         ).getResultList();
 
         logger.info("top3Borrowers = " + top3BorrowersString);

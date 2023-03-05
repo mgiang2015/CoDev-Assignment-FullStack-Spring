@@ -15,7 +15,7 @@ export default function BookDropdown({id, bookName, author, borrowers, isOpen, t
       isOpen 
       ?
       borrowers.map(name => {
-        return <p className="customer">{name}</p>
+        return <p key={name} className="customer">{name}</p>
       })
       : null
     }
