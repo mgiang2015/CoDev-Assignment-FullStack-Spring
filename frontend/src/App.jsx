@@ -10,10 +10,10 @@ function App() {
 
   useEffect(() => {
     // TODO: call API with countryCode.code
-    fetch(backendUrl + "/getTop3ReadBooks?_code=" + countryCode.code)
+    fetch(backendUrl + "/getTop3ReadBooks?country_code=" + countryCode.code)
     .then((response) => response.json())
     .then((data) => {
-      if (data.length === 0) {
+      if (data.message && (data.message === "no results" || data.message === "invalid parameter")) {
         console.log("No data unfortunately");
         setHasErr(true);
         return;

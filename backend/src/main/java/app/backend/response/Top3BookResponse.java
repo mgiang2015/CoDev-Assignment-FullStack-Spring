@@ -4,19 +4,19 @@ import app.backend.model.Author;
 
 import java.util.List;
 
-public class Response {
+public class Top3BookResponse {
     private String name;    // book name
     private Author author;  // author name
 
     private List borrower;
 
-    public Response() {
+    public Top3BookResponse() {
         name = "";
         author = null;
         borrower = null;
     }
 
-    public Response(String name, Author author, List borrower) {
+    public Top3BookResponse(String name, Author author, List borrower) {
         this.name = name;
         this.author = author;
         this.borrower = borrower;

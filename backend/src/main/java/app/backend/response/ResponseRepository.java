@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class ResponseRepository {
         this.entityManager = entityManager;
     }
 
-    public List<Response> getTop3ReadBooks(Long country_id) {
+    public List<Top3BookResponse> getTop3ReadBooks(Long country_id) {
         List<Object[]> top3BooksWithAuthor = entityManager.createNativeQuery(
                 "SELECT book_name, author_id, author_name, \"createdAt\", \"updatedAt\" FROM (\n" +
                         "        (\n" +
@@ -78,7 +76,7 @@ public class ResponseRepository {
             top3Borrowers.add(p);
         }
 
-        ArrayList<Response> result = new ArrayList<>();
+        ArrayList<Top3BookResponse> result = new ArrayList<>();
 
         for (Object[] obj : top3BooksWithAuthor) {
             Author author = new Author();
@@ -87,7 +85,7 @@ public class ResponseRepository {
             // author.setCreatedAt(OffsetDateTime.parse(String.valueOf(obj[3]), DateTimeFormatter.ofPattern ( "yyyy-MM-dd HH:mm:ss.SSSX" )));
             // author.setUpdatedAt(OffsetDateTime.parse(String.valueOf(obj[4]), DateTimeFormatter.ofPattern ( "yyyy-MM-dd HH:mm:ss.SSSX" )));
 
-            Response res = new Response();
+            Top3BookResponse res = new Top3BookResponse();
             res.setAuthor(author);
             res.setName(String.valueOf(obj[0]));
             res.setBorrower(top3Borrowers);
