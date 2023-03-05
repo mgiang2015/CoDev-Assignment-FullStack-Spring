@@ -1,3 +1,6 @@
+-- uses public schema. Create if doesn't exist
+CREATE SCHEMA IF NOT EXISTS public;
+
 -- Drop all tables
 DROP TABLE IF EXISTS people CASCADE;
 DROP TABLE IF EXISTS books CASCADE;
@@ -66,13 +69,28 @@ CREATE TABLE IF NOT EXISTS book_rents
 
 -- Populate table with some data entries
 INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
-VALUES(1, 'LMG', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 0);
+VALUES(1, 'Jesse Pinkman', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 0);
 
 INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
-VALUES(2, 'Walt White', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 0);
+VALUES(2, 'Walt White', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 1);
 
 INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
 VALUES(3, 'Gus Fring', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 0);
+
+INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
+VALUES(4, 'Hank Schrader', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 1);
+
+INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
+VALUES(5, 'Skyler White', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 1);
+
+INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
+VALUES(6, 'Heisenberg', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 0);
+
+INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
+VALUES(7, 'Saul Goodman', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 0);
+
+INSERT INTO public.people (id, name, "createdAt", "updatedAt", country_id)
+VALUES(8, 'Kanye West', '2023-03-03 15:49:00', '2023-03-03 15:49:00', 1);
 
 INSERT INTO public.authors (id, name, "createdAt", "updatedAt")
 VALUES(1, 'Barack Obama', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
@@ -90,9 +108,79 @@ INSERT INTO public.books (id, name, "createdAt", "updatedAt")
 VALUES(2, 'Lookism', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
 
 INSERT INTO public.books (id, name, "createdAt", "updatedAt")
-VALUES(3, 'Winter Wyvern', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+VALUES(3, 'Breaking Bad', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
 
+INSERT INTO public.books (id, name, "createdAt", "updatedAt")
+VALUES(4, 'Saul', '2023-03-03 15:49:00', '2023-03-03 15:49:00');
 
+INSERT INTO public.author_books ("createdAt", "updatedAt", author_id, book_id)
+VALUES('2023-03-03 15:49:00', '2023-03-03 15:49:00', 1, 1);
 
+INSERT INTO public.author_books ("createdAt", "updatedAt", author_id, book_id)
+VALUES('2023-03-03 15:49:00', '2023-03-03 15:49:00', 1, 2);
 
+INSERT INTO public.author_books ("createdAt", "updatedAt", author_id, book_id)
+VALUES('2023-03-03 15:49:00', '2023-03-03 15:49:00', 2, 3);
 
+INSERT INTO public.author_books ("createdAt", "updatedAt", author_id, book_id)
+VALUES('2023-03-03 15:49:00', '2023-03-03 15:49:00', 3, 4);
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(1, 1, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(1, 2, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(1, 3, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(1, 4, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(2, 2, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(2, 3, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(2, 4, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(3, 3, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(3, 4, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(4, 4, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(5, 1, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(5, 2, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(5, 3, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(5, 4, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(6, 2, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(6, 3, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(6, 4, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(7, 3, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(7, 4, '2023-03-03 15:49:00', '2023-03-03 15:49:00');
+
+INSERT INTO public.book_rents (person_id, book_id, "createdAt", "updatedAt")
+VALUES(8, 4, '2023-03-03 15:49:00', '2023-03-03 15:49:00');

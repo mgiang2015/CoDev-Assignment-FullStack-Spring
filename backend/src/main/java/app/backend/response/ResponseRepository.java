@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -48,22 +49,22 @@ public class ResponseRepository {
                         ")"
         ).getResultList();
 
-        logger.info("top3BooksWithAuthor = " + top3BooksWithAuthor);
+        logger.info("top3BooksWithAuthor = " + Arrays.deepToString(top3BooksWithAuthor.toArray()));
 
         List<Object[]> top3BorrowersString = entityManager.createNativeQuery(
                 "SELECT person_id, name, \"createdAt\", \"updatedAt\" FROM\n" +
                         "\tpeople\n" +
                         "\n" +
-                        "\tLEFT OUTER JOIN\n" +
+                        "\tINNER JOIN\n" +
                         "\n" +
-                        "\t(SELECT person_id, COUNT(*) FROM book_rents GROUP BY person_id ORDER BY count DESC LIMIT 3) rent_count\n" +
+                        "\t(SELECT person_id, COUNT(*) FROM book_rents GROUP BY person_id) rent_count\n" +
                         "\n" +
                         "\tON id = person_id\n" +
                         "\n" +
-                        "WHERE country_id = " + country_id
+                        "WHERE country_id = " + country_id + " ORDER BY count DESC LIMIT 3;"
         ).getResultList();
 
-        logger.info("top3Borrowers = " + top3BorrowersString);
+        logger.info("top3Borrowers = " + Arrays.deepToString(top3BorrowersString.toArray()));
 
         ArrayList<Person> top3Borrowers = new ArrayList<>();
         for (Object[] info : top3BorrowersString) {
@@ -125,12 +126,12 @@ SELECT book_name, author_id, author_name, "createdAt", "updatedAt" FROM (
 SELECT person_id, name, "createdAt", "updatedAt" FROM
 	people
 
-	LEFT OUTER JOIN
+	INNER JOIN
 
-	(SELECT person_id, COUNT(*) FROM book_rents GROUP BY person_id ORDER BY count DESC LIMIT 3) rent_count
+	(SELECT person_id, COUNT(*) FROM book_rents GROUP BY person_id) rent_count
 
 	ON id = person_id
 
-WHERE country_id = 0;
+WHERE country_id = 0 ORDER BY count DESC LIMIT 3;
  */
 
