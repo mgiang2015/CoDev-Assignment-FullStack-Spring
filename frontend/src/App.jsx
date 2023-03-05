@@ -5,6 +5,7 @@ import './App.css'
 function App() {
   const backendUrl = "http://localhost:8080"
   const [top3Books, setTop3Books] = useState([]);
+  const [hasErr, setHasErr] = useState(false);
 
   useEffect(() => {
     setTop3Books([
@@ -53,11 +54,19 @@ function App() {
 
   return (
     <div className="App">
-      <div id="container" className="bookContainer">
-        {
-          top3Books.map((book, index) => <BookDropdown key={index} id={index + 1} bookName={book.name} author={book.author} borrowers={book.borrowers} isOpen={book.isOpen} toggle={() => toggle(index)} />)
-        }
-      </div>
+      {
+        hasErr
+        ?
+        <div id="error-message" className="errorMessage">
+          <p>No data found</p>
+        </div>
+        :
+        <div id="container" className="bookContainer">
+          {
+            top3Books.map((book, index) => <BookDropdown key={index} id={index + 1} bookName={book.name} author={book.author} borrowers={book.borrowers} isOpen={book.isOpen} toggle={() => toggle(index)} />)
+          }
+        </div>
+      }
     </div>
   )
 }
